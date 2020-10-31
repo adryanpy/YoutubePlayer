@@ -15,6 +15,8 @@ URL_PARAMS = re.compile(
 
 YOUTUBE_TOKEN = "AIzaSyC9LvSGiTi9y1P0WpkfQuDU03JoqOqs5-0"
 YOUTUBE_API_URL = "https://youtube.googleapis.com/youtube/v3/"
+YOUTUBE_BASE_URL = "https://www.youtube.com/"
+QUERY_WATCH = "watch?v="
 
 class YouTube(object):
     """
@@ -29,13 +31,15 @@ class YouTube(object):
             'outtmpl': 'playing.webm',
             'postprocessors' : [{
                 'key' : 'FFmpegExtractAudio',
-                'preferredcodec' : 'mp3',
+                'preferredcodec' : 'wav',
                 'preferredquality' : '192'
             }]
         }
 
-    def get_video(self, url):
+    def get_video(self, video_id):
         youtube = youtube_dl.YoutubeDL(self.youtube_options)
+        url = YOUTUBE_BASE_URL+QUERY_WATCH+str(video_id)
+        print(url)
         youtube.download([url])
 
     def get_video_details(self, video_id):
@@ -89,7 +93,7 @@ class YouTube(object):
                 response["video"] = self.get_video_details(params["v"])
 
             else:
-                return False, {"message":"URL não apresenta um vídeo ou playlist válodos"}
+                return False, {"message":"URL não apresenta um vídeo ou playlist válidos"}
             
 
             
