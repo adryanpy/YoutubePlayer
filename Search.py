@@ -19,7 +19,6 @@ class Search(object):
             keyword = self.keyword
 
         html = self.http_client.request("GET", str(self.base_url+self.query_search+keyword.replace(" ","+")))
-        print(html)
         video_ids = re.findall(self.response_regex, html.data.decode())
         urls_return = []
 
